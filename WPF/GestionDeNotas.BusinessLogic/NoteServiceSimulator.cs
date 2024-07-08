@@ -12,7 +12,7 @@ namespace GestionDeNotas.BusinessLogic
     // ES: Un simulador de servicio muy simple para probar el comportamiento de la interfaz de usuario
     public class NoteServiceSimulator : INoteService
     {
-        public bool IsAvailable { get; set; }
+        public bool IsAvailable { get; set; } = true;
 
         public async Task<bool> CheckServiceAvailable()
         {
