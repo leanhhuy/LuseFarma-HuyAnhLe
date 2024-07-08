@@ -12,4 +12,3 @@ bin/
 obj/
 
 *.csproj.user
-/WPF/GestionDeNotas.BusinessLogic/NoteServiceSimulator.cs
