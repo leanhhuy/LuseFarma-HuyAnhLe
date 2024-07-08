@@ -16,7 +16,7 @@
         <Label x:Name="label" Grid.Column="1" Content="PARTE OBLIGATORIO" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="303" FontWeight="Bold"/>
 
         <Label x:Name="lblNota" Grid.Column="1" Content="Nota" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtNota" Grid.Column="1" HorizontalAlignment="Left" Margin="64,58,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="255"/>
+        <TextBox x:Name="txtNota" Grid.Column="1" HorizontalAlignment="Left" Margin="64,58,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="255" MaxLength="50" />
         <Label x:Name="lblNotaMsg" Grid.Column="1" Content="" HorizontalAlignment="Left" Margin="334,54,0,0" VerticalAlignment="Top" Width="390" Foreground="Blue"  />
         <Label x:Name="lblNotaErr" Grid.Column="1" Content="" HorizontalAlignment="Left" Margin="334,54,0,0" VerticalAlignment="Top" Width="390" Foreground="Red" />
 
@@ -27,7 +27,7 @@
         <Label x:Name="label_Copy" Grid.Column="1" Content="PARTE OPCIONAL" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Width="303" FontWeight="Bold"/>
 
         <Label x:Name="lblNotaOpcional" Grid.Column="1" Content="Nota" HorizontalAlignment="Left" Margin="10,174,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtNotaOpcional" Grid.Column="1" HorizontalAlignment="Left" Margin="64,178,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="255"/>
+        <TextBox x:Name="txtNotaOpcional" Grid.Column="1" HorizontalAlignment="Left" Margin="64,178,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="255" MaxLength="50" />
         <Button x:Name="btnGuardarNotaOpcional" Grid.Column="1" Content="Guardar nota" HorizontalAlignment="Left" Margin="64,213,0,0" VerticalAlignment="Top" Click="btnGuardarNotaOpcional_Click"/>
         <Button x:Name="btnLeerNotaOpcional" Grid.Column="1" Content="Leer nota" HorizontalAlignment="Left" Margin="154,213,0,0" VerticalAlignment="Top" Width="74" Click="btnLeerNotaOpcional_Click"/>
         <Button x:Name="btnBorrarNotaOpcional" Grid.Column="1" Content="Borrar nota" HorizontalAlignment="Left" Margin="245,213,0,0" VerticalAlignment="Top" Width="74" Click="btnBorrarNotaOpcional_Click"/>

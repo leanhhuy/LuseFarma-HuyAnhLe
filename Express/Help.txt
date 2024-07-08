@@ -1,0 +1,22 @@
+Español:
+Solo se usa Express.js de versión 4.19.2. Se usa npm (se necesita Node.js ya instalado). Luego:
+- Abrir Command Prompt, ir al directorio de Express
+- Ejecutar este comando para instalar los paquetes necesarios (en este caso, solo Express)
+	npm install
+- Ejecutar este comando para iniciar el servicio
+	node app.js
+- El servicio estará en esta URL:
+	http://localhost:3000/
+Si ya se ocupada el puerto 3000, podemos cambiar a otro puerto modificando la primera línea del archivo app.js También necesitamos actualizar un poco el código C#.
+
+Inglés:
+We only use Express.js version 4.19.2.
+We use npm (need Node.js installed). Then:
+- Open Command Prompt, go to this Express directory
+- Run this command to install necessary package (in this case, only Express)
+	npm install
+- Run this command to start the service
+	node app.js
+- The service will in this URL: 
+	http://localhost:3000/
+If port 3000 is already used, we can change to another port by modifying the first line of the file app.js. We also need to update the C# code a little bit.

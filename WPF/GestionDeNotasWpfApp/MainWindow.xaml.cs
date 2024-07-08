@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -26,40 +27,18 @@ namespace GestionDeNotasWpfApp
     public partial class MainWindow : Window
     {
         private INoteService _noteService;
-
-        //private const int MILLISECONDS_CHECK_SERVICE = 5 * 60 * 1000; // 10 seconds
-        private const int MILLISECONDS_CHECK_SERVICE = 5 * 1000; // 5 seconds        
+                
+        //private const int CHECK_SERVICE_PER_MILLISECONDS = 5 * 1000; // 5 seconds
+        private const int CHECK_SERVICE_PER_MILLISECONDS = 2 * 60 * 1000; // 2 minutes
 
         /* ---------------------------------------------------------------------------------
          * In principle, all necessary dependencies will injected through the constructor
          * Dependencies should be interfaces, so that we can test the behavior of UI easily using Mock or simple implementations
          --------------------------------------------------------------------------------- */
 
-
-        /*// We use the MainWindows as the the main application class
-        // load configuration settings, show login form...
-        // manage current user information, store access information to services (API, databases, file storage, cloud...)
-
-        // TODO: load from configuration file
-        private string _serviceBaseURL = "http://localhost:3000/";*/
-
         public MainWindow()
         {
             InitializeComponent();
-
-            /*    // use Service Dependency Injection pattern in order to have decoupled code
-                // with this way, we can implement Unit Test for the FrmNota using a Mock object (or a very simple implementation) of INoteService
-
-                INoteService noteServiceWrapper = new NoteServiceWrapper(_serviceBaseURL);
-                FrmNota frmNota = new FrmNota(noteServiceWrapper);
-
-                // For testing the FrmNota without a real Node service
-                // Use this block of code if we would to test the form with INoteService simulator
-                INoteService noteServiceSimulator = new NoteServiceSimulator();
-                FrmNota frmNota = new FrmNota(noteServiceSimulator);
-
-                frmNota.Closed += FrmNota_Closed;
-                frmNota.ShowDialog();*/
         }
 
         public MainWindow(INoteService noteMgmt)
@@ -76,32 +55,29 @@ namespace GestionDeNotasWpfApp
             worker.RunWorkerAsync();
         }
 
-        /*private void FrmNota_Closed(object? sender, EventArgs e)
-        {
-            // in this case, when FrmNota is closed, we decide to close the application as well
-            this.Close();
-        }*/
-
         #region check service availability
         private void Worker_DoWork(object? sender, DoWorkEventArgs e)
         {
             while (true)
             {
-                Thread thread = new Thread(new ThreadStart(CheckServiceAvailabilityInThread));
+                Thread thread = new Thread(new ThreadStart(CheckServiceAvailableInThread));
                 thread.Start();
-                Thread.Sleep(MILLISECONDS_CHECK_SERVICE);
+                Thread.Sleep(CHECK_SERVICE_PER_MILLISECONDS);
             }
         }
 
-        private async void CheckServiceAvailabilityInThread()
+        private async void CheckServiceAvailableInThread()
         {
+            /* Test history 
+             * 2024 -07-08: test with the frequency of 5 seconds
+             */
             bool available = await _noteService.CheckServiceAvailable();
-
             if (available)
             {
                 lblServiceOn.Dispatcher.Invoke(() =>
                 {
-                    lblServiceOn.Content = DateTime.Now.ToString() + ": " + "Servicio disponible.";
+                    //lblServiceOn.Content = DateTime.Now.ToString() + ": " + "Servicio disponible.";
+                    lblServiceOn.Content = "Servicio disponible.";
                 });
                 lblServiceOff.Dispatcher.Invoke(() =>
                 {
@@ -110,19 +86,20 @@ namespace GestionDeNotasWpfApp
             }
             else
             {
-                lblServiceOn.Dispatcher.Invoke(() =>
+                /*lblServiceOn.Dispatcher.Invoke(() =>
                 {
                     lblServiceOn.Content = string.Empty;
                 });
                 lblServiceOff.Dispatcher.Invoke(() =>
                 {
                     lblServiceOff.Content = DateTime.Now.ToString() + ": " + "Servicio no disponible. Inténtelo más tarde.";
-                });
-
-                /*this.Dispatcher.Invoke(() =>
-                {
-                    AlertFailedService();
                 });*/
+                this.Dispatcher.Invoke(() =>
+                {
+                    lblServiceOn.Content = string.Empty;
+                    lblServiceOff.Content = DateTime.Now.ToString() + ": " + "Servicio no disponible. Inténtelo más tarde.";
+                    AlertFailedService();
+                });
             }
         }
 
@@ -142,6 +119,11 @@ namespace GestionDeNotasWpfApp
 
         private async void btnGuardarNota_Click(object sender, RoutedEventArgs e)
         {
+            /* Test history 
+             * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
+
             clearLabelNota();
 
             if (txtNota.Text.Trim() != string.Empty)
@@ -173,6 +155,11 @@ namespace GestionDeNotasWpfApp
 
         private async void btnLeerNota_Click(object sender, RoutedEventArgs e)
         {
+            /* Test history 
+             * * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
+
             clearLabelNota();
 
             string? note = await _noteService.ReadNoteAsync();
@@ -193,6 +180,11 @@ namespace GestionDeNotasWpfApp
 
         private async void btnBorrarNota_Click(object sender, RoutedEventArgs e)
         {
+            /* Test history 
+             * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
+
             clearLabelNota();
 
             bool deleted = await _noteService.DeleteNoteAsync();
@@ -221,6 +213,11 @@ namespace GestionDeNotasWpfApp
 
         private async void btnGuardarNotaOpcional_Click(object sender, RoutedEventArgs e)
         {
+            /* Test history 
+             * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
+
             clearLabelNotaOpc();
 
             if (txtNotaOpcional.Text.Trim().Length > 0)
@@ -253,19 +250,20 @@ namespace GestionDeNotasWpfApp
 
         private async void btnLeerNotaOpcional_Click(object sender, RoutedEventArgs e)
         {
-            clearLabelNotaOpc();
+            /* Test history 
+             * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
 
-            //string? note = await _noteService.ReadLastNoteAsync();
+            clearLabelNotaOpc();
 
             string[]? notes = await _noteService.ReadNotesAsync();
             if (notes != null)
             {
-                //txtNotaOpcional.Text = note;
                 lblNotaOpcMsg.Content = "Nota leída correctamente!";
 
                 if (notes.Length > 0)
                 {
-                    //string msg = string.Empty;
                     StringBuilder stringBuilder = new StringBuilder();
                     for (int i = 0; i < notes.Length; i++)
                     {
@@ -292,24 +290,15 @@ namespace GestionDeNotasWpfApp
                 // We can also check if the service is not available or this is another error
                 /*bool available = await _noteService.CheckServiceAvailable();*/
             }
-
-            /*if (note != null)
-            {
-                txtNotaOpcional.Text = note;
-                lblNotaOpcMsg.Content = "Nota leída correctamente!";
-            }
-            else
-            {
-                lblNotaOpcErr.Content = "ERROR! Inténtelo mas tardes.";
-                DisplayFailedServiceMsgBox();
-
-                // We can also check if the service is not available or this is another error
-                *//*bool available = await _noteService.CheckServiceAvailable();*//*
-            }*/
         }
 
         private async void btnBorrarNotaOpcional_Click(object sender, RoutedEventArgs e)
         {
+            /* Test history 
+             * 2024 -07-08: with service OFF
+             * 2024 -07-08: with service ON
+             */
+
             clearLabelNotaOpc();
 
             bool deleted = await _noteService.ClearNotesAsync();
