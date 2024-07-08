@@ -1,4 +1,22 @@
+La aplicación de escritorio WPF y los proyectos relacionados están escritos en C# de .NET Core 6.0, utilizando Visual Studio 2022.
+La solución LuseFarma-HuyAnhLe tiene 3 proyectos dentro:
+- GestionDeNotasWpfApp: la aplicación de escritorio WPF
+- GestionDeNotas.BusinessLogic: un proyecto de Class Library
+- GestionDeNotas.BusinessLogic.Test: Los Casos de Prueba para GestionDeNotas.BusinessLogic, utilizando MSTest.
 
-We can go to 
+Si el servicio no se ejecuta en el puerto 3000, tenemos que actualizar el código C# en estos archivos:
+- GestionDeNotasWpfApp/App.xaml.cs
+- GestionDeNotas.BusinessLogic.Test/NoteServiceTest.cs
 
-private string _serviceBaseURL = "http://localhost:3000/";
+Cuando el servicio Express.js ya se ejecuta, podemos ejecutar los Casos de Prueba y la aplicación escritorio WPF.
+
+Ejecutar los Casos de Prueba:
+Estos casos de prueba están escritos en C# 6.0 utilizando el marco MSTest. En Visual Studio 2022, vaya al menú Test  Run All Test.
+Se deben aprobar todos los casos de prueba, excepto estos 2 casos de prueba:
+- B0_2_SaveNoteAsync_LongText()
+- C0_2_AppendNoteAsync_LongText()
+
+Ejecute la aplicación WPF:
+- Simplemente iniciar el proyecto WPF (con o sin Debugging)
+- Si queremos ejecutar el formulario WPF sin un servicio real (solo para verificar su comportamiento), podemos cambiar para usar el Simulador de servicios, utilizando esta línea de código en el archivo App.xaml.cs.
+	INoteService service = new NoteServiceSimulator();
